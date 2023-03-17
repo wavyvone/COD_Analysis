@@ -1,7 +1,6 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 
 #read data
 cod_data = pd.read_csv("Cod_cwl_data.csv")
