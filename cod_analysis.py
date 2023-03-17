@@ -189,7 +189,7 @@ def plot_heatmap(df, x, y, norm='columns', annot=True, cmap='Blues'):
 
 
 # WEAPON POPULARITY VS GAME MODE 19
-plot_heatmap(cod_data, 'mode', 'fave weapon')
+plot_heatmap(cod_data, 'fave weapon','mode')
 plt.gcf().canvas.manager.set_window_title('Weapon Popularity vs Game Mode')
 
 
