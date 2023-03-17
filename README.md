@@ -1,5 +1,5 @@
 # COD_Analysis
-Third-Party Modules: pandas[Version: 1.5.3], seaborn[Version: 0.12.2], matplotlib[Version: 3.7.0].
+Third-Party Modules: pandas[Version: 1.5.3], seaborn[Version: 0.12.2], numpy[Version:1.23.5], matplotlib[Version: 3.7.0].
 
 ## File Structure
 ### Jupyter Notebook
