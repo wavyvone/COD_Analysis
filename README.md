@@ -50,4 +50,4 @@ Code is organized in a way that you can execute `run all` to display the graphs 
 
 ### Python File:
 
-Executing `python cod_analysis.py` will display all plots and graphs. Each window popup has title respective to the graph it displays.
+Executing python file `cod_analysis.py` will display all plots and graphs. Each window popup has title respective to the graph it displays.
