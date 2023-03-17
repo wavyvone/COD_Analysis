@@ -71,7 +71,7 @@ def scatter_helper(a, b, c, d):
     fig.set_size_inches(9, 9)
     hk = sns.scatterplot(x=cod_data[a],y=cod_data[b],size=cod_data[c], sizes=(5,160)).set(title= d)
     plt.legend(title=c, loc='lower right')
-    plt.gcf().canvas.manager.set_window_title(d +' vs ' + b + '-' + a + ' counts')
+    plt.gcf().canvas.manager.set_window_title(d)
     return
 
 
