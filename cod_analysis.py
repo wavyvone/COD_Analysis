@@ -1,5 +1,6 @@
 import pandas as pd
 import seaborn as sns
+import numpy as np
 import matplotlib.pyplot as plt
 
 #read data
@@ -165,7 +166,7 @@ distplot_helper(diff_weapons, diff_title)
 
 
 # helper method to plot heatmaps to display relationships between labels
-def plot_heatmap(df, x, y, norm='columns', annot=True, cmap='Blues'):
+def plot_heatmap(df, x, y, norm='columns', annot=True, cmap='Blues', mode=False):
     """Plot heatmap of two properties.
 
     Args:
@@ -182,14 +183,21 @@ def plot_heatmap(df, x, y, norm='columns', annot=True, cmap='Blues'):
     assert isinstance(norm, str) and (norm=='all' or norm=='index' or norm=='columns')
     assert isinstance(annot, bool)
     assert isinstance(cmap, str)
-    plt.figure()
-    sns.heatmap(pd.crosstab(df[y], df[x], normalize=norm), annot=annot, cmap=cmap)
-
+    if mode == False:
+        plt.figure()
+        sns.heatmap(pd.crosstab(df[y], df[x], normalize=norm), annot=annot, cmap=cmap)
+    else:
+        cross=pd.crosstab(df[y],df[x])
+        row_sums = cross.sum(axis=1)
+        normalized_data = cross / row_sums[:, np.newaxis]
+        sns.set(font_scale=1.5)
+        plt.figure(figsize=(30,6))
+        sns.heatmap(normalized_data, annot=annot, cmap=cmap)
     return
 
 
 # WEAPON POPULARITY VS GAME MODE 19
-plot_heatmap(cod_data, 'fave weapon','mode')
+plot_heatmap(cod_data, 'fave weapon','mode', mode=True)
 plt.gcf().canvas.manager.set_window_title('Weapon Popularity vs Game Mode')
 
 
