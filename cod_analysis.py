@@ -53,7 +53,7 @@ sns.histplot(cod_data['player score'], kde = True).set(title = "Player Score His
 plt.gcf().canvas.manager.set_window_title('Player Score Distributions')
 
 
-# Helper Method for headshot kills
+# Helper Method for scatter
 def scatter_helper(a, b, c, d):
     '''
     Helps plot scatter plots of a vs b vs c
@@ -69,17 +69,17 @@ def scatter_helper(a, b, c, d):
     sns.set_style('ticks')
     fig, ax = plt.subplots()
     fig.set_size_inches(9, 9)
-    hk = sns.scatterplot(x=cod_data[a],y=cod_data[b],size=cod_data[c], sizes=(5,160)).set(title= b + "-" + a +" & " + d +' counts')
+    hk = sns.scatterplot(x=cod_data[a],y=cod_data[b],size=cod_data[c], sizes=(5,160)).set(title= d)
     plt.legend(title=c, loc='lower right')
     plt.gcf().canvas.manager.set_window_title(d +' vs ' + b + '-' + a + ' counts')
     return
 
 
 # HEADSHOT KILLS vs KILL-DEATH 9
-scatter_helper('deaths', 'kills', 'headshots', 'headshot kills')
+scatter_helper('deaths', 'kills', 'headshots', 'Kill-Death & Headshot Kill Counts')
 
 # SCORESTREAK KILLS VS KILL-DEATH COUNTS 10
-scatter_helper('deaths', 'kills', 'scorestreaks kills', 'scorestreaks kills')
+scatter_helper('deaths', 'kills', 'scorestreaks kills', 'Kill-Death & Scorestreak Kills Counts')
 
 
 #OVERALL (K/D) DISTRIBUTION 12
