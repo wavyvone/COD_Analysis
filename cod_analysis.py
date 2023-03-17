@@ -1,14 +1,18 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 
-# read data
+#read data
 cod_data = pd.read_csv("Cod_cwl_data.csv")
 
-#Plot missing Data
+#print out data point size
+print(len(cod_data))
+
+# data point labels
+print(cod_data.columns)
+
+#helper method to plot missing data
 def plot_missing(df, cmap='Blues'):
     """Plot missing percentage of dataset.
 
@@ -26,7 +30,119 @@ def plot_missing(df, cmap='Blues'):
 
     return
 
-#Plot heatmap
+
+# MISSING DATA 4
+plot_missing(cod_data)
+plt.gcf().canvas.manager.set_window_title('Missing Data 4')
+
+# PLAYER KILL & DEATH COUNTS 7
+sns.set(style = "whitegrid", palette = "deep")
+fig_01 = plt.figure(figsize = (20,5))
+subfig_1 = fig_01.add_subplot(1,2,1)
+sns.histplot(cod_data['kills'], kde = True).set(title = "Player Kill Histogram")
+subfig_2 = fig_01.add_subplot(1,2,2)
+
+sns.set(style = "whitegrid", palette = "deep", rc={'figure.figsize':(10,10)})
+sns.histplot(cod_data['deaths'], kde = True).set(title = "Player Death Histogram")
+plt.gcf().canvas.manager.set_window_title('Player Kill & Death Counts')
+
+
+# PLAYER SCORE DISTRIBUTION 8
+sns.set(style = "whitegrid", palette = "deep")
+fig_01 = plt.figure(figsize = (10,5))
+sns.histplot(cod_data['player score'], kde = True).set(title = "Player Score Histogram")
+plt.gcf().canvas.manager.set_window_title('Player Score Distributions')
+
+
+# HEADSHOT KILLS vs KILL-DEATH 9
+sns.set_style('ticks')
+fig, ax = plt.subplots()
+fig.set_size_inches(9, 9)
+hk = sns.scatterplot(x=cod_data['deaths'],y=cod_data['kills'],size=cod_data['headshots'], sizes=(5,160)).set(title='Kill-Death & Headshot Kill Counts')
+plt.legend(title='headshots', loc='lower right')
+plt.gcf().canvas.manager.set_window_title('Headshot Kills vs Kill Death')
+
+
+# SCORESTREAK KILLS VS KILL-DEATH COUNTS 10
+sns.set_style('ticks')
+fig, ax = plt.subplots()
+fig.set_size_inches(9, 9)
+sns.scatterplot(x=cod_data['deaths'],y=cod_data['kills'],size=cod_data['scorestreaks kills'], sizes = (20,160)).set(title='Kill-Death & Scorestreak Kills Counts')
+plt.legend(title='scorestreaks kills', loc='lower right')
+plt.gcf().canvas.manager.set_window_title('Scorestreak Kills vs Kill-Death Counts')
+
+
+#OVERALL (K/D) DISTRIBUTION 12
+plt.figure()
+sns.set(style = "whitegrid", palette = "deep", rc={'figure.figsize':(10,5)})
+sns.histplot(cod_data['k/d'], kde = True, bins = 60).set(title = "Player K/D Ratio Distribution")
+plt.gcf().canvas.manager.set_window_title('Overall k/d Distribution')
+
+
+# HEADSHOT & SCORESTREAK REVISITED 13
+plt.figure()
+sns.set(style="whitegrid", rc={'figure.figsize':(16,10)}, font_scale=1.75)
+sns.violinplot(x=cod_data['k/d'], y=cod_data['headshots'], inner="points", orient="h", scale = "area", width=0.8, palette="pastel").set(title = "K/D Ratio vs Headshot Kills")
+plt.gcf().canvas.manager.set_window_title('Headshot & Scorestreak 1')
+plt.figure()
+sns.set(style="whitegrid", rc={'figure.figsize':(16,10)}, font_scale=1.75)
+sns.violinplot(x=cod_data['k/d'], y=cod_data['scorestreaks kills'], inner="points", orient="h", scale = "area", width=0.8, palette="pastel").set(title = "K/D Ratio vs Scorestreak Kills")
+plt.gcf().canvas.manager.set_window_title('Headshot & Scorestreak 2')
+
+
+# PLAYER SCORE VS K/D 14
+plt.figure()
+sns.set(style="whitegrid", rc={'figure.figsize':(15,10)}, font_scale=1.5)
+sns.regplot(x=cod_data['k/d'],y=cod_data['player score'], marker="+", fit_reg=False).set(title = "K/D Ratio vs Player Score")
+plt.gcf().canvas.manager.set_window_title('Player Score vs K/D')
+
+
+# MOST COMMON WEAPONS USED 15
+plt.figure()
+sns.set(rc={'figure.figsize':(11.7,8.27)}, font_scale=2)
+sns.countplot(x=cod_data['fave weapon'], order = cod_data['fave weapon'].value_counts().index)
+plt.xticks(rotation=90)
+plt.gcf().canvas.manager.set_window_title('Most Common Weapons Used')
+
+
+# TOP 8 MOST USED WEAPONS COMPARED 16
+plt.figure()
+sns.set(style = "whitegrid", font_scale=1.25, rc={'figure.figsize':(12,6)})
+sns.distplot(cod_data[cod_data['fave weapon']=='Maddox RFB']['kills per 10min'],hist=False, label='Maddox RFB')
+sns.distplot(cod_data[cod_data['fave weapon']=='Saug 9mm']['kills per 10min'],hist=False, label='Saug 9mm')
+sns.distplot(cod_data[cod_data['fave weapon']=='ICR-7']['kills per 10min'],hist=False, label='ICR-7')
+sns.distplot(cod_data[cod_data['fave weapon']=='PPSh-41']['kills per 10min'],hist=False, label='PPsh-41')
+sns.distplot(cod_data[cod_data['fave weapon']=='FG 42']['kills per 10min'],hist=False, label='FG 42')
+sns.distplot(cod_data[cod_data['fave weapon']=='Paladin HB50']['kills per 10min'],hist=False, label='Paladian HB50')
+sns.distplot(cod_data[cod_data['fave weapon']=='KN-57']['kills per 10min'],hist=False, label='KN-57')
+sns.distplot(cod_data[cod_data['fave weapon']=='Kar98k']['kills per 10min'],hist=False, label='Kar98k')
+plt.legend()
+plt.gcf().canvas.manager.set_window_title('Top 8 Most Used Weapons Compared')
+
+
+# WEAPONS EXHIBITING SIMILAR DISTRIBUTIONS 17
+plt.figure()
+sns.set(style = "whitegrid", font_scale=1.25, rc={'figure.figsize':(12,6)})
+sns.distplot(cod_data[cod_data['fave weapon']=='Maddox RFB']['kills per 10min'],hist=False, label='Maddox RFB')
+sns.distplot(cod_data[cod_data['fave weapon']=='Saug 9mm']['kills per 10min'],hist=False, label='Saug 9mm')
+sns.distplot(cod_data[cod_data['fave weapon']=='PPSh-41']['kills per 10min'],hist=False, label='PPsh-41')
+sns.distplot(cod_data[cod_data['fave weapon']=='FG 42']['kills per 10min'],hist=False, label='FG 42')
+plt.legend()
+plt.gcf().canvas.manager.set_window_title('Weapons Exhibiting Similar Distributions')
+
+
+# WEAPONS DISPLAYING DIFFERENT TRENDS 18
+plt.figure()
+sns.set(style = "whitegrid", font_scale=1.25, rc={'figure.figsize':(12,6)})
+sns.distplot(cod_data[cod_data['fave weapon']=='ICR-7']['kills per 10min'],hist=False, label='ICR-7')
+sns.distplot(cod_data[cod_data['fave weapon']=='Paladin HB50']['kills per 10min'],hist=False, label='Paladian HB50')
+sns.distplot(cod_data[cod_data['fave weapon']=='KN-57']['kills per 10min'],hist=False, label='KN-57')
+sns.distplot(cod_data[cod_data['fave weapon']=='Kar98k']['kills per 10min'],hist=False, label='Kar98k')
+plt.legend()
+plt.gcf().canvas.manager.set_window_title('Weapons Displaying Different Trends')
+
+
+# helper method to plot heatmaps to display relationships between labels
 def plot_heatmap(df, x, y, norm='columns', annot=True, cmap='Blues'):
     """Plot heatmap of two properties.
 
@@ -44,186 +160,19 @@ def plot_heatmap(df, x, y, norm='columns', annot=True, cmap='Blues'):
     assert isinstance(norm, str) and (norm=='all' or norm=='index' or norm=='columns')
     assert isinstance(annot, bool)
     assert isinstance(cmap, str)
-
+    plt.figure()
     sns.heatmap(pd.crosstab(df[y], df[x], normalize=norm), annot=annot, cmap=cmap)
 
     return
 
 
-
-
-# ### Observe Player Kills and Death Counts
-
-# In[10]:
-
-
-#player kills (counts of number of kills from data)
-sns.set_style("whitegrid")
-kills_plot = sns.histplot(data= cod_data, x = 'kills', kde = True)
-kills_plot.set_title("Player Kill Histogram")
-kills_plot.set_ylabel("Count")
-kills_plot.set_xlabel("Kills")
-
-
-# In[11]:
-
-
-#player deaths (counts of number of deaths from data)
-sns.set_style("whitegrid")
-death_plot = sns.histplot(data= cod_data, x = 'deaths', kde = True)
-death_plot.set_title("Player Death Histogram")
-death_plot.set_ylabel("Count")
-death_plot.set_xlabel("Deaths")
-
-
-# ## Player Score Distribution
-
-# In[12]:
-
-
-#player deaths (counts of number of deaths from data)
-sns.set_style("whitegrid")
-p_score_plot = sns.histplot(data= cod_data, x = 'player score', kde = True)
-p_score_plot.set_title("Player Score Histogram")
-p_score_plot.set_ylabel("Count")
-p_score_plot.set_xlabel("Player Score")
-
-
-# ## Headshot Kills vs Kill-Death Count
-
-# In[13]:
-
-
-sns.set(rc={"figure.figsize":(6.5, 6.5)})
-sns.set_style("ticks")
-hvk_plot = sns.scatterplot(x=cod_data['deaths'],y=cod_data['kills'], size =cod_data['headshots'])
-hvk_plot.set_title("Kill-Death & Headshot Kills Count")
-hvk_plot.set_ylabel("Kills")
-hvk_plot.set_xlabel("Deaths")
-sns.move_legend(hvk_plot,"lower right")
-
-
-# ## Scorestreak Kills vs Kill-Death Counts
-
-# In[14]:
-
-
-sns.set(rc={"figure.figsize":(6.5, 6.5)})
-sns.set_style("ticks")
-svk_plot = sns.scatterplot(x=cod_data['deaths'],y=cod_data['kills'], size =cod_data['scorestreaks kills'])
-svk_plot.set_title("Kill-Death & Scorestreak Kills Count")
-svk_plot.set_ylabel("Kills")
-svk_plot.set_xlabel("Deaths")
-sns.move_legend(svk_plot,"lower right")
-
-
-# ## Overall K/D Distribution
-
-# In[15]:
-
-
-sns.set(rc={"figure.figsize":(9.5, 6.5)})
-sns.set_style("whitegrid")
-kd_plot = sns.histplot(data= cod_data, x = 'k/d', kde = True, bins=60)
-kd_plot.set_title("Player K/D Distribution")
-kd_plot.set_ylabel("Count")
-kd_plot.set_xlabel("K/D")
-
-
-# ## Headshot vs Scorestreak
-
-# In[ ]:
-
-
-
-
-
-# ## Player Score vs K/D Ratio
-
-# In[16]:
-
-
-sns.set(rc={"figure.figsize":(10.5, 6.5)})
-sns.set_style("whitegrid")
-sns.regplot(x=cod_data['k/d'],y=cod_data['player score'], marker="+", fit_reg=False).set_title("K/D Ratio vs Player Score")
-
-
-# ## Most Common Weapons Used
-
-# In[17]:
-
-
-sns.set(rc={'figure.figsize':(11.7,8.27)}, font_scale=2)
-sns.countplot(x=cod_data['fave weapon'], order = cod_data['fave weapon'].value_counts().index)
-plt.xticks(rotation=90)
-
-
-# ## Top 8 Most Used Weapons Compared
-
-# In[18]:
-
-
-sns.set(rc={'figure.figsize':(11.7,6.27)}, font_scale=2)
-sns.set_style("whitegrid")
-sns.distplot(cod_data[cod_data['fave weapon']=='Maddox RFB']['kills'],hist=False, label='Maddox RFB')
-sns.distplot(cod_data[cod_data['fave weapon']=='Saug 9mm']['kills'],hist=False, label='Saug 9mm')
-sns.distplot(cod_data[cod_data['fave weapon']=='ICR-7']['kills'],hist=False, label='ICR-7')
-sns.distplot(cod_data[cod_data['fave weapon']=='PPSh-41']['kills'],hist=False, label='PPsh-41')
-sns.distplot(cod_data[cod_data['fave weapon']=='FG 42']['kills'],hist=False, label='FG 42')
-sns.distplot(cod_data[cod_data['fave weapon']=='Paladin HB50']['kills'],hist=False, label='Paladian HB50')
-sns.distplot(cod_data[cod_data['fave weapon']=='KN-57']['kills'],hist=False, label='KN-57')
-sns.distplot(cod_data[cod_data['fave weapon']=='Kar98k']['kills'],hist=False, label='Kar98k')
-
-plt.legend()
-
-
-# ## Weapons Exhibiting Similar Distributions
-
-# In[19]:
-
-
-sns.set(rc={'figure.figsize':(11.7,6.27)}, font_scale=2)
-sns.set_style("whitegrid")
-sns.distplot(cod_data[cod_data['fave weapon']=='Maddox RFB']['kills'],hist=False, label='Maddox RFB')
-sns.distplot(cod_data[cod_data['fave weapon']=='Saug 9mm']['kills'],hist=False, label='Saug 9mm')
-sns.distplot(cod_data[cod_data['fave weapon']=='PPSh-41']['kills'],hist=False, label='PPsh-41')
-sns.distplot(cod_data[cod_data['fave weapon']=='FG 42']['kills'],hist=False, label='FG 42')
-
-plt.legend()
-
-
-# ## Weapons Displaying Different Trends
-
-# In[20]:
-
-
-sns.set(rc={'figure.figsize':(11.7,6.27)}, font_scale=2)
-sns.set_style("whitegrid")
-sns.distplot(cod_data[cod_data['fave weapon']=='ICR-7']['kills'],hist=False, label='ICR-7')
-sns.distplot(cod_data[cod_data['fave weapon']=='Paladin HB50']['kills'],hist=False, label='Paladian HB50')
-sns.distplot(cod_data[cod_data['fave weapon']=='KN-57']['kills'],hist=False, label='KN-57')
-sns.distplot(cod_data[cod_data['fave weapon']=='Kar98k']['kills'],hist=False, label='Kar98k')
-
-plt.legend()
-
-
-
-
-
-#Plot missing data percentages
-plot_missing(cod_data)
-
-
-
-
-# ## Weapon Popularity vs Game Modes
+# WEAPON POPULARITY VS GAME MODE 19
 plot_heatmap(cod_data, 'mode', 'fave weapon')
+plt.gcf().canvas.manager.set_window_title('Weapon Popularity vs Game Mode')
 
 
-# ## Weapon Popularity vs Specialists
+# WEAPON POPULARITY VS SPECIALISTS 20
 plot_heatmap(cod_data, 'fave specialist', 'fave weapon')
+plt.gcf().canvas.manager.set_window_title('Weapon Popularity Vs Specialists')
 
-
-
-
-
+plt.show()
