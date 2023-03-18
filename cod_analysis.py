@@ -95,7 +95,6 @@ def distplot_helper(a, title):
 
 
 
-
 # helper method to plot heatmaps to display relationships between labels
 def plot_heatmap(df, x, y, norm='columns', annot=True, cmap='Blues', mode=False):
     """Plot heatmap of two properties.
