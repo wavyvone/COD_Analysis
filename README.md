@@ -24,7 +24,7 @@ Each cell is labeled with the respective graph it represents. The ordering from 
 There are 5 helper methods: Used to create Missing Data plots, scatter plots for headshot kills vs kill-death and scorestreak kills vs kill-death, violin plots for k/d vs headshots and k/d vs scorestreak kills, dist plots for comparisons between weapon usages, and heatmaps for Weapon Popularity vs Specialists and Game Mode.
 
 ### Python File:
-Like Jupyter Notebook, Python files are also structured from top to bottom, with plots labeled using comments that describe the relationship the plots showcase between labels, starting with: 
+Like Jupyter Notebook, Python files are also structured from top to bottom inside of the main function, with plots labeled using comments that describe the relationship the plots showcase between labels, starting with: 
 
 - Missing Data showcase, 
 - Player Kill & Death Counts, 
