@@ -31,29 +31,6 @@ def plot_missing(df, cmap='Blues'):
     return
 
 
-# MISSING DATA 4
-plot_missing(cod_data)
-plt.gcf().canvas.manager.set_window_title('Missing Data 4')
-
-# PLAYER KILL & DEATH COUNTS 7
-sns.set(style = "whitegrid", palette = "deep")
-fig_01 = plt.figure(figsize = (20,5))
-subfig_1 = fig_01.add_subplot(1,2,1)
-sns.histplot(cod_data['kills'], kde = True).set(title = "Player Kill Histogram")
-subfig_2 = fig_01.add_subplot(1,2,2)
-
-sns.set(style = "whitegrid", palette = "deep", rc={'figure.figsize':(10,10)})
-sns.histplot(cod_data['deaths'], kde = True).set(title = "Player Death Histogram")
-plt.gcf().canvas.manager.set_window_title('Player Kill & Death Counts')
-
-
-# PLAYER SCORE DISTRIBUTION 8
-sns.set(style = "whitegrid", palette = "deep")
-fig_01 = plt.figure(figsize = (10,5))
-sns.histplot(cod_data['player score'], kde = True).set(title = "Player Score Histogram")
-plt.gcf().canvas.manager.set_window_title('Player Score Distributions')
-
-
 # Helper Method for scatter
 def scatter_helper(a, b, c, d):
     '''
@@ -76,19 +53,6 @@ def scatter_helper(a, b, c, d):
     return
 
 
-# HEADSHOT KILLS vs KILL-DEATH 9
-scatter_helper('deaths', 'kills', 'headshots', 'Kill-Death & Headshot Kill Counts')
-
-# SCORESTREAK KILLS VS KILL-DEATH COUNTS 10
-scatter_helper('deaths', 'kills', 'scorestreaks kills', 'Kill-Death & Scorestreak Kills Counts')
-
-
-#OVERALL (K/D) DISTRIBUTION 12
-plt.figure()
-sns.set(style = "whitegrid", palette = "deep", rc={'figure.figsize':(10,5)})
-sns.histplot(cod_data['k/d'], kde = True, bins = 60).set(title = "Player K/D Ratio Distribution")
-plt.gcf().canvas.manager.set_window_title('Overall k/d Distribution')
-
 #Violinplot helper method
 def violin_helper(a,b, title, w_title):
     '''
@@ -108,25 +72,7 @@ def violin_helper(a,b, title, w_title):
     plt.gcf().canvas.manager.set_window_title(w_title)
     return
     
-# HEADSHOT & SCORESTREAK REVISITED 13
-violin_helper('k/d', 'headshots', "K/D Ratio vs Headshot Kills", 'Headshot & Scorestreak 1')
 
-violin_helper('k/d','scorestreaks kills', 'K/D Ratio vs Scorestreak Kills', 'Headshot & Scorestreak 2')
-
-
-# PLAYER SCORE VS K/D 14
-plt.figure()
-sns.set(style="whitegrid", rc={'figure.figsize':(15,10)}, font_scale=1.5)
-sns.regplot(x=cod_data['k/d'],y=cod_data['player score'], marker="+", fit_reg=False).set(title = "K/D Ratio vs Player Score")
-plt.gcf().canvas.manager.set_window_title('Player Score vs K/D')
-
-
-# MOST COMMON WEAPONS USED 15
-plt.figure()
-sns.set(rc={'figure.figsize':(11.7,8.27)}, font_scale=2)
-sns.countplot(x=cod_data['fave weapon'], order = cod_data['fave weapon'].value_counts().index)
-plt.xticks(rotation=90)
-plt.gcf().canvas.manager.set_window_title('Most Common Weapons Used')
 
 # helper method for comparing most used weapons trends
 def distplot_helper(a, title):
@@ -147,22 +93,7 @@ def distplot_helper(a, title):
     plt.gcf().canvas.manager.set_window_title(title)
     return
 
-# TOP 8 MOST USED WEAPONS COMPARED 16
-top_8_weapons = ['Maddox RFB','Saug 9mm','ICR-7','PPSh-41','FG 42','Paladin HB50','KN-57','Kar98k']
-top_8_title = 'Top 8 Most Used Weapons Compared'
-distplot_helper(top_8_weapons, top_8_title)
 
-
-# WEAPONS EXHIBITING SIMILAR DISTRIBUTIONS 17
-similar_weapons = ['Maddox RFB','Saug 9mm','PPSh-41','FG 42']
-similar_title = 'Weapons Exhibiting Similar Distributions'
-distplot_helper(similar_weapons, similar_title)
-
-
-# WEAPONS DISPLAYING DIFFERENT TRENDS 18
-diff_weapons = ['ICR-7','Paladin HB50','KN-57','Kar98k']
-diff_title = 'Weapons Displaying Different Trends'
-distplot_helper(diff_weapons, diff_title)
 
 
 # helper method to plot heatmaps to display relationships between labels
@@ -196,13 +127,88 @@ def plot_heatmap(df, x, y, norm='columns', annot=True, cmap='Blues', mode=False)
     return
 
 
-# WEAPON POPULARITY VS GAME MODE 19
-plot_heatmap(cod_data, 'fave weapon','mode', mode=True)
-plt.gcf().canvas.manager.set_window_title('Weapon Popularity vs Game Mode')
+if __name__ == "__main__":
+    # MISSING DATA 4
+    plot_missing(cod_data)
+    plt.gcf().canvas.manager.set_window_title('Missing Data 4')
+
+    # PLAYER KILL & DEATH COUNTS 7
+    sns.set(style = "whitegrid", palette = "deep")
+    fig_01 = plt.figure(figsize = (20,5))
+    subfig_1 = fig_01.add_subplot(1,2,1)
+    sns.histplot(cod_data['kills'], kde = True).set(title = "Player Kill Histogram")
+    subfig_2 = fig_01.add_subplot(1,2,2)
+
+    sns.set(style = "whitegrid", palette = "deep", rc={'figure.figsize':(10,10)})
+    sns.histplot(cod_data['deaths'], kde = True).set(title = "Player Death Histogram")
+    plt.gcf().canvas.manager.set_window_title('Player Kill & Death Counts')
 
 
-# WEAPON POPULARITY VS SPECIALISTS 20
-plot_heatmap(cod_data, 'fave specialist', 'fave weapon')
-plt.gcf().canvas.manager.set_window_title('Weapon Popularity Vs Specialists')
+    # PLAYER SCORE DISTRIBUTION 8
+    sns.set(style = "whitegrid", palette = "deep")
+    fig_01 = plt.figure(figsize = (10,5))
+    sns.histplot(cod_data['player score'], kde = True).set(title = "Player Score Histogram")
+    plt.gcf().canvas.manager.set_window_title('Player Score Distributions')
 
-plt.show()
+    
+    # HEADSHOT KILLS vs KILL-DEATH 9
+    scatter_helper('deaths', 'kills', 'headshots', 'Kill-Death & Headshot Kill Counts')
+
+    # SCORESTREAK KILLS VS KILL-DEATH COUNTS 10
+    scatter_helper('deaths', 'kills', 'scorestreaks kills', 'Kill-Death & Scorestreak Kills Counts')
+
+
+    #OVERALL (K/D) DISTRIBUTION 12
+    plt.figure()
+    sns.set(style = "whitegrid", palette = "deep", rc={'figure.figsize':(10,5)})
+    sns.histplot(cod_data['k/d'], kde = True, bins = 60).set(title = "Player K/D Ratio Distribution")
+    plt.gcf().canvas.manager.set_window_title('Overall k/d Distribution')
+
+    
+    # HEADSHOT & SCORESTREAK REVISITED 13
+    violin_helper('k/d', 'headshots', "K/D Ratio vs Headshot Kills", 'Headshot & Scorestreak 1')
+
+    violin_helper('k/d','scorestreaks kills', 'K/D Ratio vs Scorestreak Kills', 'Headshot & Scorestreak 2')
+
+
+    # PLAYER SCORE VS K/D 14
+    plt.figure()
+    sns.set(style="whitegrid", rc={'figure.figsize':(15,10)}, font_scale=1.5)
+    sns.regplot(x=cod_data['k/d'],y=cod_data['player score'], marker="+", fit_reg=False).set(title = "K/D Ratio vs Player Score")
+    plt.gcf().canvas.manager.set_window_title('Player Score vs K/D')
+
+
+    # MOST COMMON WEAPONS USED 15
+    plt.figure()
+    sns.set(rc={'figure.figsize':(11.7,8.27)}, font_scale=2)
+    sns.countplot(x=cod_data['fave weapon'], order = cod_data['fave weapon'].value_counts().index)
+    plt.xticks(rotation=90)
+    plt.gcf().canvas.manager.set_window_title('Most Common Weapons Used')
+    
+    # TOP 8 MOST USED WEAPONS COMPARED 16
+    top_8_weapons = ['Maddox RFB','Saug 9mm','ICR-7','PPSh-41','FG 42','Paladin HB50','KN-57','Kar98k']
+    top_8_title = 'Top 8 Most Used Weapons Compared'
+    distplot_helper(top_8_weapons, top_8_title)
+
+
+    # WEAPONS EXHIBITING SIMILAR DISTRIBUTIONS 17
+    similar_weapons = ['Maddox RFB','Saug 9mm','PPSh-41','FG 42']
+    similar_title = 'Weapons Exhibiting Similar Distributions'
+    distplot_helper(similar_weapons, similar_title)
+
+
+    # WEAPONS DISPLAYING DIFFERENT TRENDS 18
+    diff_weapons = ['ICR-7','Paladin HB50','KN-57','Kar98k']
+    diff_title = 'Weapons Displaying Different Trends'
+    distplot_helper(diff_weapons, diff_title)
+
+    # WEAPON POPULARITY VS GAME MODE 19
+    plot_heatmap(cod_data, 'fave weapon','mode', mode=True)
+    plt.gcf().canvas.manager.set_window_title('Weapon Popularity vs Game Mode')
+
+
+    # WEAPON POPULARITY VS SPECIALISTS 20
+    plot_heatmap(cod_data, 'fave specialist', 'fave weapon')
+    plt.gcf().canvas.manager.set_window_title('Weapon Popularity Vs Specialists')
+
+    plt.show()
