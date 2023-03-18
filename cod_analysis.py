@@ -127,6 +127,7 @@ def plot_heatmap(df, x, y, norm='columns', annot=True, cmap='Blues', mode=False)
     return
 
 
+#Start main function to plot all the graphs shown
 if __name__ == "__main__":
     # MISSING DATA 4
     plot_missing(cod_data)
